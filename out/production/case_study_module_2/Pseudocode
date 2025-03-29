@@ -1,0 +1,12 @@
+Class information
+Class interface IinformationManager
+    method Display
+    method addInformation
+    method updateInformation
+    method delete
+    method search
+    method sort
+    method fileWrite
+    method fileRead
+Class informationManager
+    overwrite everything
