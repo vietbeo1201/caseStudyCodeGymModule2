@@ -52,7 +52,5 @@ public class main {
                     System.out.println("Your option is invalid!");
             }
         }
-
-
     }
 }

@@ -1,2 +1,2 @@
-[viet, nam, 0969999904, gia dinh, 123 me tri, 01/02/2001, vietnq2001@gmail.com]
-[trang, nu, 0969999904, gia dinh, 123 me tri, 01/02/2001, vietnq2001@gmail.com]
+1,viet,nam,0123456789,gd,123metri,01/02/2001,viet@gmail.com
+2,trang,nu,0987654321,vo,ha nam,15/09/1999,thutrang@gmail.com,

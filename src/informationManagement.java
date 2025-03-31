@@ -17,8 +17,10 @@ public class informationManagement extends information implements IinformationMa
             BufferedReader br = new BufferedReader(fr);
             String line;
             while ((line = br.readLine()) != null) {
-                String[] dataLine = line.split(","); // split data from string to elements\
-                information eachInfor = new information(dataLine[0],dataLine[1],dataLine[2],dataLine[3],dataLine[4],dataLine[5],dataLine[6]);
+                //setId(Integer.parseInt(line));
+                String[] dataLine = line.split(","); // split data from string to elements
+                int id = Integer.parseInt(dataLine[0]);
+                information eachInfor = new information(id ,dataLine[1],dataLine[2],dataLine[3],dataLine[4],dataLine[5],dataLine[6],dataLine[7]);
                 informationArray.add(eachInfor);
             }
             br.close();
@@ -32,8 +34,8 @@ public class informationManagement extends information implements IinformationMa
     public void display(){
         try {
             List<information> peopleCount = readDataFromFile();
-            for (int i = 1; i < peopleCount.size() + 1; i++) {
-                System.out.println("nguoi thu " + i + " : " + peopleCount.get(i));
+            for (int i = 0; i < peopleCount.size(); i++) {
+                System.out.println("nguoi thu " + (i+1) + " : " + peopleCount.get(i));
             }
 
         } catch (Exception e){
@@ -44,6 +46,13 @@ public class informationManagement extends information implements IinformationMa
     @Override
     public void addInformation() {
         // imput information.txt
+        List<information> listInformation = readDataFromFile();
+        int  lastID = 1;
+        if (!listInformation.isEmpty()) {
+            lastID = listInformation.get(listInformation.size() - 1).getId();
+            lastID ++;
+        }
+//        setId(lastID);
         Scanner sc = new Scanner(System.in);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println("Enter your name: ");
@@ -84,7 +93,7 @@ public class informationManagement extends information implements IinformationMa
             }
         }
         ArrayList<information> informationArray = new ArrayList<>();
-        informationArray.add(new information(name, gender, phoneNumber, group, address, dateOfBirth, email));
+        informationArray.add(new information(lastID, name, gender, phoneNumber, group, address, dateOfBirth, email));
 
         // check File
         File informationFile = new File("information.txt");
@@ -96,8 +105,15 @@ public class informationManagement extends information implements IinformationMa
                 System.out.println("Cannot write to file");
             } else {
                 try {
-                    FileWriter fw = new FileWriter(informationFile);
-                    fw.append(informationArray.toString());
+                    FileWriter fw = new FileWriter(informationFile, true);
+                    fw.write(lastID+ ",");
+                    fw.write(name+ ",");
+                    fw.write(gender+ ",");
+                    fw.write(phoneNumber+ ",");
+                    fw.write(group+ ",");
+                    fw.write(address+ ",");
+                    fw.write(dateOfBirth+ ",");
+                    fw.write(email+ ",");
                     fw.append("\n");
                     fw.close();
                 } catch (IOException e){

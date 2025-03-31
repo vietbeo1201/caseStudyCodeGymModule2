@@ -1,5 +1,6 @@
 package src;
 public class information {
+    private int id;
     private String name = "Unknown Name";
     private String gender = "Unknown Gender";
     private String phoneNumber;
@@ -8,7 +9,8 @@ public class information {
     private String dateOfBirth;
     private String email = "Unknown Email";
 
-    public information(String name, String gender, String phoneNumber, String group, String address, String dateOfBirth, String email) {
+    public information(int id, String name, String gender, String phoneNumber, String group, String address, String dateOfBirth, String email) {
+        this.id = id;
         this.name = name;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
@@ -18,7 +20,8 @@ public class information {
         this.email = email;
     }
     public information() {}
-
+    public int getId() {return id;}
+    public void setId(int id) {this.id = id;}
     public String getName(){
         return name;
     }
@@ -64,13 +67,14 @@ public class information {
 
     @Override
     public String toString() {
-        return   name
-                + ", " + gender
-                + ", " + phoneNumber
-                + ", " + group
-                + ", " + address
-                + ", " + dateOfBirth
-                + ", " + email;
+        return  id
+                + "," + name
+                + "," + gender
+                + "," + phoneNumber
+                + "," + group
+                + "," + address
+                + "," + dateOfBirth
+                + "," + email;
     }
 }
 
