@@ -43,32 +43,53 @@ public class informationManagement extends information implements IinformationMa
         }
     }
 
-    @Override
-    public void addInformation() {
-        // imput information.txt
+    public int autoID(){
         List<information> listInformation = readDataFromFile();
         int  lastID = 1;
         if (!listInformation.isEmpty()) {
             lastID = listInformation.get(listInformation.size() - 1).getId();
             lastID ++;
         }
-//        setId(lastID);
-        Scanner sc = new Scanner(System.in);
+        return lastID;
+    }
+
+    public String validatePhoneNumber(){
+        while (true){
+            String phoneNumber;
+            System.out.println("Enter the phone number of the person");
+            phoneNumber = new Scanner(System.in).nextLine();
+            if (phoneNumber.matches("[0-9]{10}"))
+                return phoneNumber;
+            else {
+                System.out.println("invalid phone number");
+            }
+        }
+    }
+
+    public String validateEmail(){
+        while (true){
+            String email;
+            System.out.println("Enter your email: ");
+            email = new Scanner(System.in).nextLine();
+            if (email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")){
+                return email;
+            } else {
+                System.out.println("invalid email");
+            }
+        }
+    }
+
+    @Override
+    public void addInformation() {
+        // input information.txt
+        int lastID = autoID();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println("Enter your name: ");
         String name = new Scanner(System.in).nextLine();
         System.out.println("Enter your gender: ");
         String gender = new Scanner(System.in).nextLine();
-        String phoneNumber;
-        while (true){
-            System.out.println("Enter the phone number of the person");
-            phoneNumber = new Scanner(System.in).nextLine();
-            if (phoneNumber.matches("[0-9]{10}"))
-                break;
-            else {
-                System.out.println("invalid phone number");
-            }
-        }
+        // validate phone number
+        String phoneNumber = validatePhoneNumber();
         System.out.println("Enter your group: ");
         String group = new Scanner(System.in).nextLine();
         System.out.println("Enter your address: ");
@@ -82,16 +103,7 @@ public class informationManagement extends information implements IinformationMa
             e.printStackTrace();
             System.out.println("Invalid date format");
         }
-        String email;
-        while (true){
-            System.out.println("Enter your email: ");
-            email = new Scanner(System.in).nextLine();
-            if (email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")){
-                break;
-            } else {
-                System.out.println("invalid email");
-            }
-        }
+        String email = validateEmail() ;
         ArrayList<information> informationArray = new ArrayList<>();
         informationArray.add(new information(lastID, name, gender, phoneNumber, group, address, dateOfBirth, email));
 
@@ -125,7 +137,54 @@ public class informationManagement extends information implements IinformationMa
 
     @Override
     public void updateInformation() {
-        // search by name and phone number
+        // search information by id
+        System.out.println("Enter the id of the information you would like to update: ");
+        int upid = new Scanner(System.in).nextInt();
+        File file = new File("information.txt");
+        try{
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] dataLine = line.split(",");
+                int id = Integer.parseInt(dataLine[0]);
+                if (upid == id) {
+                    // let user change all the information about that person then append into file with old id
+                    information oldInfor = new information(id, dataLine[1], dataLine[2], dataLine[3], dataLine[4],dataLine[5],dataLine[6],dataLine[7]);
+                    System.out.println("Are you sure you want to update the information?" + oldInfor); // double check
+                    System.out.println("1. Yes");
+                    System.out.println("2. No");
+                    int choice = new Scanner(System.in).nextInt();
+                    switch (choice) {
+                        case 2:
+                            System.exit(0);
+                            break;
+                        case 1:
+                            System.out.println("rewrite name");
+                            dataLine[1] = new Scanner(System.in).nextLine();
+                            System.out.println("rewrite gender");
+                            dataLine[2] = new Scanner(System.in).nextLine();
+                            dataLine[3] = validatePhoneNumber();
+                            System.out.println("rewrite group");
+                            dataLine[4] = new Scanner(System.in).nextLine();
+                            System.out.println("rewrite address");
+                            dataLine[5] = new Scanner(System.in).nextLine();
+                            System.out.println("rewrite dateOfBirth");
+                            dataLine[6] = new Scanner(System.in).nextLine();
+                            dataLine[7] = validateEmail();
+                            break;
+                    }
+                    information newInfor = new information(id, dataLine[1], dataLine[2], dataLine[3], dataLine[4],dataLine[5],dataLine[6],dataLine[7]);
+
+                    FileWriter fw = new FileWriter("information.txt", true);
+                    fw.write(newInfor.toString());
+                }
+
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
