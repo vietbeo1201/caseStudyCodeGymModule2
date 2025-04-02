@@ -1,3 +1,2 @@
 1,viet,nam,0969999904,meeee,123 metri,01/02/2001,viet@gmail.com,
 2,hang,nu,0969142498,vo,giap nhat,08/03/2001,chippicutevl@gmail.com,
-3,1,1,1234567890,1,1,11/11/1999,111@gmail.com

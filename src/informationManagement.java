@@ -38,7 +38,6 @@ public class informationManagement extends information implements IinformationMa
             for (int i = 0; i < peopleCount.size(); i++) {
                 System.out.println("nguoi thu " + (i+1) + " : " + peopleCount.get(i));
             }
-
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -200,17 +199,66 @@ public class informationManagement extends information implements IinformationMa
             fw1.close();
 
         } catch (Exception e){
-            e.printStackTrace();
+            System.out.println("Something went wrong while updating the information");
+            System.out.println("please try again");
+            updateInformation();
         }
 
     }
 
     @Override
     public void deleteInformation() {
-        // find the person
+        /// find the person
         File file = new File("information.txt");
-        // if not found then add into new arraylist
-        // override all txt file with the infor in arraylist
+        System.out.println("Enter the id you want to delete: ");
+        int delID = new Scanner(System.in).nextInt();
+        ArrayList<String> updatelist = new ArrayList<>();
+        try {
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] dataLine = line.split(",");
+                int id = Integer.parseInt(dataLine[0]);
+                /// if not found then add into new arraylist
+                if (delID == id) {
+                    System.out.println("Are you sure you want to delete the information?" + line);
+                    System.out.println("1. Yes");
+                    System.out.println("2. No");
+                    int choice = new Scanner(System.in).nextInt();
+                    switch (choice) {
+                        case 2:
+                            System.exit(0);
+                            break;
+                        case 1:
+                            break;
+                    }
+
+                } else {
+                    updatelist.add(line);
+                }
+            }
+            br.close();
+            fr.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        try{
+            /// override all txt file with the infor in arraylist
+            FileWriter fw = new FileWriter(file);
+            fw.write("");
+            fw.close();
+            FileWriter fw1 = new FileWriter("information.txt",true);
+            for (int i = 0; i < updatelist.size(); i++) {
+                fw1.write(updatelist.get(i) + "\n");
+            }
+            fw1.close();
+        } catch (Exception e){
+            System.out.println("Something went wrong while deleting the information");
+            System.out.println("please try again");
+            deleteInformation();
+        }
+
     }
 
     @Override
@@ -233,7 +281,9 @@ public class informationManagement extends information implements IinformationMa
             br.close();
             fr.close();
         } catch (Exception e){
-            e.printStackTrace();
+            System.out.println("Something went wrong while searching the information");
+            System.out.println("please try again");
+            searchInformation();
         }
     }
 
