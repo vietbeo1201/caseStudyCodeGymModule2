@@ -1,10 +1,7 @@
 package src;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class informationManagement extends information implements IinformationManagement {
@@ -262,6 +259,33 @@ public class informationManagement extends information implements IinformationMa
     }
 
     @Override
+    public void sortInformation() {
+        File file = new File("information.txt");
+        ArrayList<information> inforList = new ArrayList<>();
+        try{
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] dataLine = line.split(",");
+                int id = Integer.parseInt(dataLine[0]);
+                information infor = new information(id, dataLine[1], dataLine[2], dataLine[3], dataLine[4],dataLine[5],dataLine[6],dataLine[7]);
+                inforList.add(infor);
+            }
+            br.close();
+            fr.close();
+            inforList.sort(Comparator.comparing(information::getName, String.CASE_INSENSITIVE_ORDER));
+            for (int i = 0; i < inforList.size(); i++) {
+                System.out.println(inforList.get(i));
+            }
+        } catch (Exception e){
+            System.out.println("Something went wrong while sorting the information");
+            System.out.println("please try again");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void searchInformation() {
         File file = new File("information.txt");
         System.out.println("Enter the id of the information you would like to search: ");
@@ -285,11 +309,6 @@ public class informationManagement extends information implements IinformationMa
             System.out.println("please try again");
             searchInformation();
         }
-    }
-
-    @Override
-    public void sortInformation() {
-
     }
 
     @Override
